@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -285,9 +287,13 @@ public class JFIconsCode extends JFIcons {
             String category = this.modCboString.getSeleccionado();
             String subCategory = this.modCboString2.getSeleccionado();
             lstFieldFiltrar = lstFieldFiltrar.stream()
-                    .filter(field -> category.trim().equalsIgnoreCase("--TODOS--") ? true : field.getName().trim().contains(category))
-                    .filter(field -> field.getName().trim().contains(subCategory))
-                    .filter(field -> field.getName().trim().toUpperCase().contains(filtro.trim().toUpperCase()))
+                    .filter(field -> category.trim().equalsIgnoreCase("--TODOS--") ? true
+                    //                            : field.getName().trim().contains(category))
+                    : like(field.getName().trim(), category.concat("%")))
+                    //                    .filter(field -> field.getName().trim().contains(subCategory))
+                    .filter(field -> like(field.getName().trim(), "%".concat(subCategory)))
+                    //                    .filter(field -> field.getName().trim().toUpperCase().contains(filtro.trim().toUpperCase()))
+                    .filter(field -> like( reurnSplitValue(field.getName().trim(),"__",1).toUpperCase(), "%".concat(filtro.trim().toUpperCase().replaceAll(" ", "%")).concat("%")))
                     .sorted(Comparator.comparing(Field::getName))
                     .collect(Collectors.toList());
             this.paSpPaGrid.removeAll();
@@ -296,6 +302,7 @@ public class JFIconsCode extends JFIcons {
                 String body = (String) lstFieldFiltrar.get(i).get(this.objClass);
                 this.AddPanelIcons(body, lstFieldFiltrar.size() - i);
             }
+            this.RedimensionarGrid();
         } catch (IllegalAccessException | IllegalArgumentException | JSONException e) {
             System.err.println("Error: " + e);
         }
@@ -422,5 +429,18 @@ public class JFIconsCode extends JFIcons {
 
     private String reemplazarColor(String contenido, String newColor) {
         return contenido.replaceFirst(colorDefault, "fill=\"" + newColor + "\"");
+    }
+
+    private boolean like(String valor, String busqueda) {
+        Optional<String> busquedaOpc = Optional.ofNullable(busqueda);
+        String busquedaAux = busquedaOpc.isPresent() ? busquedaOpc.get() : "";
+        return Pattern.matches("^".concat(busquedaAux.replaceAll("%", ".*")).concat("$"), valor);
+    }
+
+    private String reurnSplitValue(String valor, String split, int pos) {
+        Optional<String> valorOpc = Optional.ofNullable(valor);
+        Optional<String> splitOpc = Optional.ofNullable(split);
+        String[] valores = (valorOpc.isPresent() ? valorOpc.get() : "").split(splitOpc.isPresent() ? splitOpc.get() : "");
+        return valores.length > pos ? valores[pos] : "";
     }
 }

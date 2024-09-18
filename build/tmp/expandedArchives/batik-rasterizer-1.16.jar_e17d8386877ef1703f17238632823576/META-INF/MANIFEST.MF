@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Built-By: simon
+Class-Path: lib/batik-shared-resources-1.16.jar lib/batik-svgrasterize
+ r-1.16.jar lib/batik-parser-1.16.jar lib/batik-awt-util-1.16.jar lib/
+ xmlgraphics-commons-2.7.jar lib/commons-io-1.3.2.jar lib/commons-logg
+ ing-1.2.jar lib/batik-xml-1.16.jar lib/xml-apis-ext-1.3.04.jar lib/ba
+ tik-transcoder-1.16.jar lib/batik-anim-1.16.jar lib/batik-css-1.16.ja
+ r lib/batik-ext-1.16.jar lib/batik-svg-dom-1.16.jar lib/batik-bridge-
+ 1.16.jar lib/batik-script-1.16.jar lib/batik-dom-1.16.jar lib/xml-api
+ s-1.4.01.jar lib/batik-gvt-1.16.jar lib/batik-svggen-1.16.jar lib/bat
+ ik-util-1.16.jar lib/batik-constants-1.16.jar lib/batik-i18n-1.16.jar
+  lib/batik-codec-1.16.jar lib/fop-transcoder-allinone-2.7.jar
+Created-By: Apache Maven 3.6.0
+Build-Jdk: 1.8.0_20
+Main-Class: org.apache.batik.apps.rasterizer.Main
+
